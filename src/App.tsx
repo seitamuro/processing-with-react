@@ -6,13 +6,14 @@ import p5Types from "p5";
 let x = 50;
 let y = 50;
 const max_speed = 10;
+let direction_x = 1;
+let direction_y = 1;
 
 function App() {
-  let direction_x = 1;
-  let direction_y = 1;
+
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5.createCanvas(500, 500).parent(canvasParentRef);
-    let direction = p5.random(0, max_speed*100) / 100;
+    const direction = p5.random(0, max_speed*100) / 100;
+    p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
     direction_x = direction;
     direction_y = p5.sqrt(max_speed * max_speed - direction * direction);
   }
@@ -38,7 +39,18 @@ function App() {
     }
   }
 
-  return <Sketch setup={setup} draw={draw} />;
+  const windowResized = (p5: p5Types) => {
+    p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    if (x > p5.windowHeight) { 
+      y = p5.windowHeight;
+    }
+
+    if (y > p5.windowWidth) {
+      x = p5.windowWidth;
+    }
+  }
+
+  return <Sketch setup={setup} draw={draw} windowResized={windowResized} />;
 }
 
 export default App;
