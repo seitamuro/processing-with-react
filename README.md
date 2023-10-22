@@ -1,3 +1,9 @@
+# 環境構築
+
+```
+yarn add react-p5
+```
+
 # Development Server
 
 ```
